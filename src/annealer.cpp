@@ -5,6 +5,7 @@ Annealer::Annealer() {
     acceptedChanges = 0;
     attemptedChanges = 0;
 
+    /* Initialize random number generator. */
     rng = std::mt19937(rd());
     whichSwap = std::uniform_int_distribution<int>(0,1);
     whichRoom = std::uniform_int_distribution<int>(0, NUM_ROOMS - 1);
@@ -39,7 +40,11 @@ void Annealer::PreloadRooms() {
 }
 
 void Annealer::ReduceTemperature() {
-    
+    if(acceptedChanges >= CHANGES_BEFORE_REDUCTION || attemptedChanges >= ATTEMPTS_BEFORE_REDUCTION) {
+        temperature *= GEOMETRIC_TEMP_REDUCTION;
+        acceptedChanges = 0;
+        attemptedChanges = 0;
+    }
 }
 
 void Annealer::Solver() {
