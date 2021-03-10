@@ -1,9 +1,11 @@
 #ifndef ANNEALER_H
 #define ANNEALER_H
 
-#include <array>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
+#include <array>
+#include <chrono>
 #include <random>
 
 #include "globals.h"
@@ -15,6 +17,9 @@ class Annealer {
     std::array<Room, NUM_ROOMS> rooms;
     int temperature, acceptedChanges, attemptedChanges, totalChanges, totalAttempts;
     bool solved;
+    
+    std::chrono::time_point<std::chrono::steady_clock> start;
+    std::chrono::time_point<std::chrono::steady_clock> end;
 
     std::random_device rd;
     std::mt19937 rng;

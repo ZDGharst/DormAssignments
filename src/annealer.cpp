@@ -67,11 +67,14 @@ void Annealer::ReduceTemperature() {
 /* Swap randomly, adjust the temperature as needed, then save the results once the
  * assignments are considered to be solved. */
 void Annealer::Solver() {
+    start = std::chrono::steady_clock::now();
+
     while(!solved) {
         RandomSwap();
         ReduceTemperature();
     }
 
+    end = std::chrono::steady_clock::now();
     SaveResultsToFile("output.txt");
 }
 
@@ -154,14 +157,17 @@ bool Annealer::SaveResultsToFile(std::string filename) {
     }
 
     averageScore /= NUM_ROOMS;
+    auto elapsedTime = end - start;
 
-    saveFile << "Initial temperature:   " << INITIAL_TEMPERATURE
-             << "\nGeometric reduction:   " << GEOMETRIC_TEMP_REDUCTION
-             << "\nBest fitness score:    " << bestScore
-             << "\nWorst fitness score:   " << worstScore
-             << "\nAverage fitness score: " << averageScore
-             << "\nTotal swaps:           " << totalChanges
-             << "\nTotal attempts:        " << totalAttempts
+    saveFile <<   "Initial temperature:   " << std::setw(8) << INITIAL_TEMPERATURE
+             << "\nGeometric reduction:   " << std::setw(8) << GEOMETRIC_TEMP_REDUCTION
+             << "\nBest fitness score:    " << std::setw(8) << bestScore
+             << "\nWorst fitness score:   " << std::setw(8) << worstScore
+             << "\nAverage fitness score: " << std::setw(8) << averageScore
+             << "\nTotal swaps:           " << std::setw(8) << totalChanges
+             << "\nTotal attempts:        " << std::setw(8) << totalAttempts
+             << "\nTime to solve (ms):    " << std::setw(8)
+             << std::chrono::duration <double, std::milli> (elapsedTime).count() 
              << "\n";
 
     for(int room = 0; room < NUM_ROOMS; room++) {

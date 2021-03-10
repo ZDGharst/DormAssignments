@@ -7,8 +7,8 @@
 
 class Room {
     public:
-
-    int roommate[NUM_STUDENTS_PER_ROOM];
+    
+    std::array<int, NUM_STUDENTS_PER_ROOM> roommate;
     int fitnessScore;
 
     void CalculateFitness(const std::array<int, SIZE_OF_COMPATIBILITIES>& compatibilities);
