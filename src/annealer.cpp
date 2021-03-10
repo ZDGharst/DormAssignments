@@ -35,3 +35,22 @@ void Annealer::PreloadRooms() {
         rooms[room].CalculateFitness(compatibilities);
     }
 }
+
+bool Annealer::SaveResultsToFile(std::string filename) {
+    std::ofstream saveFile;
+    saveFile.open(filename);
+
+    if(!saveFile) {
+        std::cout << "Couldn't create output file! Exiting...\n";
+        return false;
+    }
+
+    saveFile << "Initial temperature:  " << INITIAL_TEMPERATURE
+             << "\nCooling schedule: " << GEOMETRIC_TEMP_REDUCTION
+             << "\nBest room score:    "
+             << "\nWorst room score:   "
+             << "\nAverage room score: ";
+
+    saveFile.close();
+    return true;
+}

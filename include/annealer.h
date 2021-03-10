@@ -19,7 +19,7 @@ class Annealer {
     void RandomSwap();
     void SmallSwap();
     void LargeSwap();
-    void SaveResultsToFile(std::string filename);
+    bool SaveResultsToFile(std::string filename);
 };
 
 #endif /* ANNEALER_H */
