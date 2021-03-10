@@ -4,6 +4,9 @@ Annealer::Annealer() {
     temperature = INITIAL_TEMPERATURE;
     acceptedChanges = 0;
     attemptedChanges = 0;
+
+    rng = std::mt19937(rd());
+    whichSwap = std::uniform_int_distribution<int>(1,2);
 }
 
 bool Annealer::LoadCompatibilities(std::string filename) {
@@ -34,7 +37,16 @@ void Annealer::PreloadRooms() {
 }
 
 void Annealer::RandomSwap() {
+    if(whichSwap(rng) == 1) SmallSwap();
+    else LargeSwap();
+}
 
+void SmallSwap() {
+
+}
+
+void LargeSwap() {
+    
 }
 
 bool Annealer::SaveResultsToFile(std::string filename) {

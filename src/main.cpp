@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 
 #include "globals.h"
 #include "room.h"
