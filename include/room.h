@@ -3,13 +3,15 @@
 
 #include <array>
 
+#include "globals.h"
+
 class Room {
     public:
 
-    int roommate[4];
+    int roommate[NUM_STUDENTS_PER_ROOM];
     int fitnessScore;
 
-    void CalculateFitness(const std::array<int, 40000>& compatibilities);
+    void CalculateFitness(const std::array<int, SIZE_OF_COMPATIBILITIES>& compatibilities);
 };
 
 #endif /* ROOM_H */

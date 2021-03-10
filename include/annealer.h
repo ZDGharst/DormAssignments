@@ -3,10 +3,16 @@
 
 #include <array>
 
+#include "globals.h"
+#include "room.h"
+
 class Annealer {
     public:
-    std::array<int, 40000> compatibilities;
-    std::array<Room, 50> rooms;
+    std::array<int, SIZE_OF_COMPATIBILITIES> compatibilities;
+    std::array<Room, NUM_ROOMS> rooms;
+    int temperature, acceptedChanges, attemptedChanges;
+
+    Annealer();
 };
 
-#endif
+#endif /* ANNEALER_H */

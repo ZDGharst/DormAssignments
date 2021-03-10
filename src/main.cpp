@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 
+#include "globals.h"
 #include "room.h"
 #include "annealer.h"
 
@@ -16,18 +17,17 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    for(int i = 0; i < 40000; i++) {
+    for(int i = 0; i < SIZE_OF_COMPATIBILITIES; i++) {
         compatibilityFile >> annealer.compatibilities[i];
     }
 
     compatibilityFile.close();
 
     /* Pre-load rooms. */
-    for(int i = 0, j = 0; i < 50; i++) {
-        annealer.rooms[i].roommate[0] = j++;
-        annealer.rooms[i].roommate[1] = j++;
-        annealer.rooms[i].roommate[2] = j++;
-        annealer.rooms[i].roommate[3] = j++;
+    for(int i = 0, j = 0; i < NUM_ROOMS; i++) {
+        for(int r = 0; r < NUM_STUDENTS_PER_ROOM; r++) {
+            annealer.rooms[i].roommate[r] = j++;
+        }
         annealer.rooms[i].CalculateFitness(annealer.compatibilities);
 
         std::cout << "Room #" << i + 1 << ": " << annealer.rooms[i].fitnessScore << "\n";
