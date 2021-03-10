@@ -24,13 +24,13 @@ int main(int argc, char* argv[]) {
     compatibilityFile.close();
 
     /* Pre-load rooms. */
-    for(int i = 0, j = 0; i < NUM_ROOMS; i++) {
-        for(int r = 0; r < NUM_STUDENTS_PER_ROOM; r++) {
-            annealer.rooms[i].roommate[r] = j++;
+    for(int room = 0, student = 0; room < NUM_ROOMS; room++) {
+        for(int roommate = 0; roommate < NUM_STUDENTS_PER_ROOM; roommate++) {
+            annealer.rooms[room].roommate[roommate] = student++;
         }
-        annealer.rooms[i].CalculateFitness(annealer.compatibilities);
+        annealer.rooms[room].CalculateFitness(annealer.compatibilities);
 
-        std::cout << "Room #" << i + 1 << ": " << annealer.rooms[i].fitnessScore << "\n";
+        std::cout << "Room #" << room + 1 << ": " << annealer.rooms[room].fitnessScore << "\n";
     }
 
     return 0;

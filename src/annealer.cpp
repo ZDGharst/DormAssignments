@@ -1,7 +1,7 @@
 #include "annealer.h"
 
 Annealer::Annealer() {
-    temperature = 100;
+    temperature = INITIAL_TEMPERATURE;
     acceptedChanges = 0;
     attemptedChanges = 0;
 }

@@ -2,6 +2,7 @@
 
 #include "room.h"
 
+/* TODO: Change this to work with constants instead of magic numbers. */
 void Room::CalculateFitness(const std::array<int, 40000>& compatibilities) {
     fitnessScore = 0;
     fitnessScore += compatibilities[roommate[0] * 200 + roommate[1]];
