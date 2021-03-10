@@ -13,6 +13,7 @@ class Room {
 
     void CalculateFitness(const std::array<int, SIZE_OF_COMPATIBILITIES>& compatibilities);
     void SortRoommates();
+    std::string PrintRoom();
 };
 
 #endif /* ROOM_H */

@@ -23,3 +23,17 @@ void Room::SortRoommates() {
         }
     }
 }
+
+std::string Room::PrintRoom() {
+    std::string output = "\tFitness Score [";
+    output += std::to_string(fitnessScore);
+    output += "]\tRoommates: [";
+    for(int student = 0; student < NUM_STUDENTS_PER_ROOM - 1; student++) {
+        output += std::to_string(roommate[student]);
+        output += ", ";
+    }
+    output += std::to_string(roommate[NUM_STUDENTS_PER_ROOM - 1]);
+    output += "]";
+
+    return output;
+}

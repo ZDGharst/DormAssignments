@@ -165,7 +165,7 @@ bool Annealer::SaveResultsToFile(std::string filename) {
              << "\n";
 
     for(int room = 0; room < NUM_ROOMS; room++) {
-        saveFile << "\nRoom #" << room + 1 << ": " << rooms[room].fitnessScore;
+        saveFile << "\nRoom #" << room + 1 << ": " << rooms[room].PrintRoom();
     }
 
     saveFile.close();
