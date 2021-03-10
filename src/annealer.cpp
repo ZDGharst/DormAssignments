@@ -141,12 +141,16 @@ bool Annealer::SaveResultsToFile(std::string filename) {
     
     for(int room = 0; room < NUM_ROOMS; room++) {
         averageScore += rooms[room].fitnessScore;
+
         if(bestScore > rooms[room].fitnessScore) {
             bestScore = rooms[room].fitnessScore;
         }
+
         else if(worstScore < rooms[room].fitnessScore) {
             worstScore = rooms[room].fitnessScore;
         }
+
+        rooms[room].SortRoommates();
     }
 
     averageScore /= NUM_ROOMS;

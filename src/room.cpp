@@ -10,3 +10,16 @@ void Room::CalculateFitness(const std::array<int, 40000>& compatibilities) {
     fitnessScore += compatibilities[roommate[1] * 200 + roommate[3]];
     fitnessScore += compatibilities[roommate[2] * 200 + roommate[3]];
 }
+
+void Room::SortRoommates() {
+    int temp;
+    for(int roommate1 = 0; roommate1 < NUM_STUDENTS_PER_ROOM - 1; roommate1++) {
+        for(int roommate2 = roommate1 + 1; roommate2 < NUM_STUDENTS_PER_ROOM; roommate2++) {
+            if(roommate[roommate1] > roommate[roommate2]) {
+                temp = roommate[roommate1];
+                roommate[roommate1] = roommate[roommate2];
+                roommate[roommate2] = temp;
+            }
+        }
+    }
+}
