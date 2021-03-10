@@ -11,6 +11,7 @@ Annealer::Annealer(std::string filename) {
     whichSwap = std::uniform_int_distribution<int>(0,1);
     whichRoom = std::uniform_int_distribution<int>(0, NUM_ROOMS - 1);
     whichRoommate = std::uniform_int_distribution<int>(0, NUM_STUDENTS_PER_ROOM - 1);
+    acceptanceProbability = std::uniform_real_distribution<double>(0.0, 1.0);
 
     if(!LoadCompatibilities(filename)) {
         exit(-1);
@@ -106,29 +107,33 @@ void Annealer::SmallSwap(int room1, int room2) {
     changedRoom1.CalculateFitness(compatibilities);
     changedRoom2.CalculateFitness(compatibilities);
 
-    int deltaDifference = changedRoom1.fitnessScore + changedRoom2.fitnessScore
-    - rooms[room1].fitnessScore - rooms[room2].fitnessScore;
-    if(deltaDifference < 0) {
-        std::cout << "BETTER! ";
+    if(AcceptChange(rooms[room1].fitnessScore + rooms[room2].fitnessScore,
+                    changedRoom1.fitnessScore + changedRoom2.fitnessScore)) {
         rooms[room1] = changedRoom1;
         rooms[room2] = changedRoom2;
         acceptedChanges++;
         totalChanges++;
-    }
-    else {
-        std::cout << "WORSE! DON'T ";
-    }
-
-    if(DEBUG_ACTIVE) {
-        std::cout << "Swapping roommate " << roommate1 + 1 << " of room " << room1 + 1
-    << " with roommate " << roommate2 + 1 << " of room " << room2 + 1 << 
-    " for a score of " << deltaDifference << "\n";
     }
 }
 
 /* Switch the first two roommates in the first room with the second two roommates
  * in the second room. */
 void Annealer::LargeSwap() {
+}
+
+/* Always accept a chance if it's better. Only accept a worse change if it falls within
+ * the probability chance. */
+bool Annealer::AcceptChange(int oldFitness, int newFitness) {
+    if(newFitness <= oldFitness) {
+        return true;
+    }
+    
+    double acceptanceChance = std::exp((oldFitness - newFitness)/temperature);
+    if(acceptanceChance >= acceptanceProbability(rng)) {
+        return true;
+    }
+    
+    return false;
 }
 
 bool Annealer::SaveResultsToFile(std::string filename) {

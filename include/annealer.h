@@ -15,7 +15,8 @@ class Annealer {
     private:
     std::array<int, SIZE_OF_COMPATIBILITIES> compatibilities;
     std::array<Room, NUM_ROOMS> rooms;
-    int temperature, acceptedChanges, attemptedChanges, totalChanges, totalAttempts;
+    int acceptedChanges, attemptedChanges, totalChanges, totalAttempts;
+    double temperature;
     bool solved;
     
     std::chrono::time_point<std::chrono::steady_clock> start;
@@ -26,6 +27,7 @@ class Annealer {
     std::uniform_int_distribution<int> whichSwap;
     std::uniform_int_distribution<int> whichRoom;
     std::uniform_int_distribution<int> whichRoommate;
+    std::uniform_real_distribution<double> acceptanceProbability;
 
     public:
     Annealer(std::string filename);
@@ -37,6 +39,7 @@ class Annealer {
     void RandomSwap();
     void SmallSwap(int room1, int room2);
     void LargeSwap();
+    bool AcceptChange(int oldFitness, int newFitness);
     bool SaveResultsToFile(std::string filename);
 };
 
