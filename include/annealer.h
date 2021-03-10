@@ -13,6 +13,13 @@ class Annealer {
     int temperature, acceptedChanges, attemptedChanges;
 
     Annealer();
+
+    bool LoadCompatibilities(std::string filename);
+    void PreloadRooms();
+    void RandomSwap();
+    void SmallSwap();
+    void LargeSwap();
+    void SaveResultsToFile(std::string filename);
 };
 
 #endif /* ANNEALER_H */
