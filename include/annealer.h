@@ -13,7 +13,8 @@ class Annealer {
     private:
     std::array<int, SIZE_OF_COMPATIBILITIES> compatibilities;
     std::array<Room, NUM_ROOMS> rooms;
-    int temperature, acceptedChanges, attemptedChanges;
+    int temperature, acceptedChanges, attemptedChanges, totalChanges, totalAttempts;
+    bool solved;
 
     std::random_device rd;
     std::mt19937 rng;

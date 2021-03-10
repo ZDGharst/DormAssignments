@@ -4,6 +4,7 @@ Annealer::Annealer() {
     temperature = INITIAL_TEMPERATURE;
     acceptedChanges = 0;
     attemptedChanges = 0;
+    solved = false;
 
     /* Initialize random number generator. */
     rng = std::mt19937(rd());
@@ -40,7 +41,12 @@ void Annealer::PreloadRooms() {
 }
 
 void Annealer::ReduceTemperature() {
-    if(acceptedChanges >= CHANGES_BEFORE_REDUCTION || attemptedChanges >= ATTEMPTS_BEFORE_REDUCTION) {
+    if(attemptedChanges >= ATTEMPTS_BEFORE_REDUCTION || acceptedChanges >= CHANGES_BEFORE_REDUCTION) {
+        if(acceptedChanges == 0) {
+            solved = true;
+            return;
+        }
+
         temperature *= GEOMETRIC_TEMP_REDUCTION;
         acceptedChanges = 0;
         attemptedChanges = 0;
@@ -48,11 +54,9 @@ void Annealer::ReduceTemperature() {
 }
 
 void Annealer::Solver() {
-    ReduceTemperature();
-
-    int i = 0;
-    while(i++ < 100) {
+    while(!solved) {
         RandomSwap();
+        ReduceTemperature();
     }
 }
 
@@ -64,6 +68,9 @@ void Annealer::RandomSwap() {
     }
 
     SmallSwap(room1, room2);
+
+    attemptedChanges++;
+    totalAttempts++;
 }
 
 void Annealer::SmallSwap(int room1, int room2) {
@@ -83,6 +90,8 @@ void Annealer::SmallSwap(int room1, int room2) {
         std::cout << "BETTER! ";
         rooms[room1] = changedRoom1;
         rooms[room2] = changedRoom2;
+        acceptedChanges++;
+        totalChanges++;
     }
     else {
         std::cout << "WORSE! DON'T ";
@@ -111,7 +120,9 @@ bool Annealer::SaveResultsToFile(std::string filename) {
              << "\nCooling schedule: " << GEOMETRIC_TEMP_REDUCTION
              << "\nBest room score:    "
              << "\nWorst room score:   "
-             << "\nAverage room score: ";
+             << "\nAverage room score: "
+             << "\nTotal swaps: " << totalChanges
+             << "\nTotal attempts: " << totalAttempts;
 
     for(int room = 0; room < NUM_ROOMS; room++) {
         saveFile << "\nRoom #" << room + 1 << ": " << rooms[room].fitnessScore;
