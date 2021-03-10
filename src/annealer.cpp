@@ -1,6 +1,3 @@
-#include <iostream>
-#include <fstream>
-
 #include "annealer.h"
 
 Annealer::Annealer() {
@@ -34,6 +31,10 @@ void Annealer::PreloadRooms() {
 
         rooms[room].CalculateFitness(compatibilities);
     }
+}
+
+void Annealer::RandomSwap() {
+
 }
 
 bool Annealer::SaveResultsToFile(std::string filename) {

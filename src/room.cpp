@@ -1,5 +1,3 @@
-#include <array>
-
 #include "room.h"
 
 /* TODO: Change this to work with constants instead of magic numbers. */

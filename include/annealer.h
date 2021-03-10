@@ -2,6 +2,8 @@
 #define ANNEALER_H
 
 #include <array>
+#include <iostream>
+#include <fstream>
 
 #include "globals.h"
 #include "room.h"
