@@ -103,7 +103,8 @@ void Annealer::SmallSwap(int room1, int room2) {
     changedRoom1.CalculateFitness(compatibilities);
     changedRoom2.CalculateFitness(compatibilities);
 
-    int deltaDifference = changedRoom1.fitnessScore + changedRoom2.fitnessScore - rooms[room1].fitnessScore - rooms[room2].fitnessScore;
+    int deltaDifference = changedRoom1.fitnessScore + changedRoom2.fitnessScore
+    - rooms[room1].fitnessScore - rooms[room2].fitnessScore;
     if(deltaDifference < 0) {
         std::cout << "BETTER! ";
         rooms[room1] = changedRoom1;
@@ -137,6 +138,7 @@ bool Annealer::SaveResultsToFile(std::string filename) {
     }
 
     int averageScore = 0, bestScore = rooms[0].fitnessScore, worstScore = rooms[0].fitnessScore;
+    
     for(int room = 0; room < NUM_ROOMS; room++) {
         averageScore += rooms[room].fitnessScore;
         if(bestScore > rooms[room].fitnessScore) {
@@ -146,15 +148,16 @@ bool Annealer::SaveResultsToFile(std::string filename) {
             worstScore = rooms[room].fitnessScore;
         }
     }
+
     averageScore /= NUM_ROOMS;
 
-    saveFile << "Initial temperature:  " << INITIAL_TEMPERATURE
-             << "\nCooling schedule:     " << GEOMETRIC_TEMP_REDUCTION
-             << "\nBest room score:      " << bestScore
-             << "\nWorst room score:     " << worstScore
-             << "\nAverage room score:   " << averageScore
-             << "\nTotal swaps:          " << totalChanges
-             << "\nTotal attempts:       " << totalAttempts
+    saveFile << "Initial temperature:   " << INITIAL_TEMPERATURE
+             << "\nGeometric reduction:   " << GEOMETRIC_TEMP_REDUCTION
+             << "\nBest fitness score:    " << bestScore
+             << "\nWorst fitness score:   " << worstScore
+             << "\nAverage fitness score: " << averageScore
+             << "\nTotal swaps:           " << totalChanges
+             << "\nTotal attempts:        " << totalAttempts
              << "\n";
 
     for(int room = 0; room < NUM_ROOMS; room++) {
