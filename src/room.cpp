@@ -2,9 +2,6 @@
 
 #include "room.h"
 
-Room::Room() {
-}
-
 void Room::CalculateFitness(const std::array<int, 40000>& compatibilities) {
     fitnessScore = 0;
     fitnessScore += compatibilities[roommate[0] * 200 + roommate[1]];

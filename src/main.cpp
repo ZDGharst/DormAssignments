@@ -1,31 +1,36 @@
 #include <iostream>
 #include <fstream>
-#include <array>
 
 #include "room.h"
+#include "annealer.h"
 
 int main(int argc, char* argv[]) {
-    std::array<int, 40000> compatibilities;
-    std::array<Room, 50> rooms;
+    Annealer annealer;
 
+    /* Handle input from file. */
     std::ifstream compatibilityFile;
     compatibilityFile.open("data/roommates.txt");
 
+    if(!compatibilityFile) {
+        std::cout << "Couldn't find input file! Exiting...\n";
+        return -1;
+    }
+
     for(int i = 0; i < 40000; i++) {
-        compatibilityFile >> compatibilities[i];
+        compatibilityFile >> annealer.compatibilities[i];
     }
 
     compatibilityFile.close();
 
-    int j = 0;
-    for(int i = 0; i < 50; i++) {
-        rooms[i].roommate[0] = j++;
-        rooms[i].roommate[1] = j++;
-        rooms[i].roommate[2] = j++;
-        rooms[i].roommate[3] = j++;
-        rooms[i].CalculateFitness(compatibilities);
+    /* Pre-load rooms. */
+    for(int i = 0, j = 0; i < 50; i++) {
+        annealer.rooms[i].roommate[0] = j++;
+        annealer.rooms[i].roommate[1] = j++;
+        annealer.rooms[i].roommate[2] = j++;
+        annealer.rooms[i].roommate[3] = j++;
+        annealer.rooms[i].CalculateFitness(annealer.compatibilities);
 
-        std::cout << "Room #" << i + 1 << ": " << rooms[i].fitnessScore << "\n";
+        std::cout << "Room #" << i + 1 << ": " << annealer.rooms[i].fitnessScore << "\n";
     }
 
     return 0;

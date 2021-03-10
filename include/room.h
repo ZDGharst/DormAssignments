@@ -9,8 +9,6 @@ class Room {
     int roommate[4];
     int fitnessScore;
 
-    Room();
-
     void CalculateFitness(const std::array<int, 40000>& compatibilities);
 };
 
