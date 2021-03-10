@@ -87,7 +87,13 @@ void Annealer::RandomSwap() {
         room2 = whichRoom(rng);
     }
 
-    SmallSwap(room1, room2);
+    if(whichSwap(rng) == 0) {
+        SmallSwap(room1, room2);
+    }
+    
+    else {
+        LargeSwap(room1, room2);
+    }
 
     attemptedChanges++;
     totalAttempts++;
@@ -118,7 +124,27 @@ void Annealer::SmallSwap(int room1, int room2) {
 
 /* Switch the first two roommates in the first room with the second two roommates
  * in the second room. */
-void Annealer::LargeSwap() {
+void Annealer::LargeSwap(int room1, int room2) {
+    Room changedRoom1 = Room(rooms[room1]);
+    Room changedRoom2 = Room(rooms[room2]);
+
+    int temp;
+    for(int studentPair = 0; studentPair < NUM_STUDENTS_PER_ROOM / 2; studentPair++) {
+        temp = changedRoom1.roommate[studentPair];
+        changedRoom1.roommate[studentPair] = changedRoom2.roommate[NUM_STUDENTS_PER_ROOM - studentPair - 1];
+        changedRoom2.roommate[NUM_STUDENTS_PER_ROOM - studentPair - 1] = temp;
+    }
+
+    changedRoom1.CalculateFitness(compatibilities);
+    changedRoom2.CalculateFitness(compatibilities);
+
+    if(AcceptChange(rooms[room1].fitnessScore + rooms[room2].fitnessScore,
+                    changedRoom1.fitnessScore + changedRoom2.fitnessScore)) {
+        rooms[room1] = changedRoom1;
+        rooms[room2] = changedRoom2;
+        acceptedChanges++;
+        totalChanges++;
+    }
 }
 
 /* Always accept a chance if it's better. Only accept a worse change if it falls within

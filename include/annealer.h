@@ -38,7 +38,7 @@ class Annealer {
     void Solver();
     void RandomSwap();
     void SmallSwap(int room1, int room2);
-    void LargeSwap();
+    void LargeSwap(int room1, int room2);
     bool AcceptChange(int oldFitness, int newFitness);
     bool SaveResultsToFile(std::string filename);
 };
