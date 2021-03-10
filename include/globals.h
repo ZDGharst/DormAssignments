@@ -11,4 +11,6 @@ inline constexpr int CHANGES_BEFORE_REDUCTION = 2000;
 inline constexpr int ATTEMPTS_BEFORE_REDUCTION = 20000;
 inline constexpr double GEOMETRIC_TEMP_REDUCTION = 0.95;
 
+inline constexpr bool DEBUG_ACTIVE = true;
+
 #endif /* GLOBALS_H */

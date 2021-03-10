@@ -18,14 +18,18 @@ class Annealer {
     std::random_device rd;
     std::mt19937 rng;
     std::uniform_int_distribution<int> whichSwap;
+    std::uniform_int_distribution<int> whichRoom;
+    std::uniform_int_distribution<int> whichRoommate;
 
     public:
     Annealer();
 
     bool LoadCompatibilities(std::string filename);
     void PreloadRooms();
+    void ReduceTemperature();
+    void Solver();
     void RandomSwap();
-    void SmallSwap();
+    void SmallSwap(int room1, int room2);
     void LargeSwap();
     bool SaveResultsToFile(std::string filename);
 };

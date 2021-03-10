@@ -12,6 +12,7 @@ int main(int argc, char* argv[]) {
     }
 
     annealer.PreloadRooms();
+    annealer.Solver();
     annealer.SaveResultsToFile("output.txt");
 
     return 0;

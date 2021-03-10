@@ -6,7 +6,9 @@ Annealer::Annealer() {
     attemptedChanges = 0;
 
     rng = std::mt19937(rd());
-    whichSwap = std::uniform_int_distribution<int>(1,2);
+    whichSwap = std::uniform_int_distribution<int>(0,1);
+    whichRoom = std::uniform_int_distribution<int>(0, NUM_ROOMS - 1);
+    whichRoommate = std::uniform_int_distribution<int>(0, NUM_STUDENTS_PER_ROOM - 1);
 }
 
 bool Annealer::LoadCompatibilities(std::string filename) {
@@ -36,17 +38,59 @@ void Annealer::PreloadRooms() {
     }
 }
 
-void Annealer::RandomSwap() {
-    if(whichSwap(rng) == 1) SmallSwap();
-    else LargeSwap();
-}
-
-void SmallSwap() {
-
-}
-
-void LargeSwap() {
+void Annealer::ReduceTemperature() {
     
+}
+
+void Annealer::Solver() {
+    ReduceTemperature();
+
+    int i = 0;
+    while(i++ < 100) {
+        RandomSwap();
+    }
+}
+
+void Annealer::RandomSwap() {
+    int room1 = whichRoom(rng);
+    int room2 = whichRoom(rng);
+    while(room1 == room2) {
+        room2 = whichRoom(rng);
+    }
+
+    SmallSwap(room1, room2);
+}
+
+void Annealer::SmallSwap(int room1, int room2) {
+    Room changedRoom1 = Room(rooms[room1]);
+    Room changedRoom2 = Room(rooms[room2]);
+    int roommate1 = whichRoommate(rng);
+    int roommate2 = whichRoommate(rng);
+
+    int temp = changedRoom1.roommate[roommate1];
+    changedRoom1.roommate[roommate1] = changedRoom2.roommate[roommate2];
+    changedRoom2.roommate[roommate2] = temp;
+    changedRoom1.CalculateFitness(compatibilities);
+    changedRoom2.CalculateFitness(compatibilities);
+
+    int deltaDifference = changedRoom1.fitnessScore + changedRoom2.fitnessScore - rooms[room1].fitnessScore - rooms[room2].fitnessScore;
+    if(deltaDifference < 0) {
+        std::cout << "BETTER! ";
+        rooms[room1] = changedRoom1;
+        rooms[room2] = changedRoom2;
+    }
+    else {
+        std::cout << "WORSE! DON'T ";
+    }
+
+    if(DEBUG_ACTIVE) {
+        std::cout << "Swapping roommate " << roommate1 + 1 << " of room " << room1 + 1
+    << " with roommate " << roommate2 + 1 << " of room " << room2 + 1 << 
+    " for a score of " << deltaDifference << "\n";
+    }
+}
+
+void Annealer::LargeSwap() {
 }
 
 bool Annealer::SaveResultsToFile(std::string filename) {
@@ -63,6 +107,10 @@ bool Annealer::SaveResultsToFile(std::string filename) {
              << "\nBest room score:    "
              << "\nWorst room score:   "
              << "\nAverage room score: ";
+
+    for(int room = 0; room < NUM_ROOMS; room++) {
+        saveFile << "\nRoom #" << room + 1 << ": " << rooms[room].fitnessScore;
+    }
 
     saveFile.close();
     return true;
