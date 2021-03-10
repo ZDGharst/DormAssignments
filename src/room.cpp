@@ -1,14 +1,12 @@
 #include "room.h"
 
-/* TODO: Change this to work with constants instead of magic numbers. */
 void Room::CalculateFitness(const std::array<int, 40000>& compatibilities) {
     fitnessScore = 0;
-    fitnessScore += compatibilities[roommate[0] * 200 + roommate[1]];
-    fitnessScore += compatibilities[roommate[0] * 200 + roommate[2]];
-    fitnessScore += compatibilities[roommate[0] * 200 + roommate[3]];
-    fitnessScore += compatibilities[roommate[1] * 200 + roommate[2]];
-    fitnessScore += compatibilities[roommate[1] * 200 + roommate[3]];
-    fitnessScore += compatibilities[roommate[2] * 200 + roommate[3]];
+    for(int student1 = 0; student1 < NUM_STUDENTS_PER_ROOM - 1; student1++) {
+        for(int student2 = student1 + 1; student2 < NUM_STUDENTS_PER_ROOM; student2++) {
+            fitnessScore += compatibilities[roommate[student1] * NUM_STUDENTS + roommate[student2]];
+        }
+    }
 }
 
 void Room::SortRoommates() {
