@@ -136,13 +136,25 @@ bool Annealer::SaveResultsToFile(std::string filename) {
         return false;
     }
 
+    int averageScore = 0, bestScore = rooms[0].fitnessScore, worstScore = rooms[0].fitnessScore;
+    for(int room = 0; room < NUM_ROOMS; room++) {
+        averageScore += rooms[room].fitnessScore;
+        if(bestScore > rooms[room].fitnessScore) {
+            bestScore = rooms[room].fitnessScore;
+        }
+        else if(worstScore < rooms[room].fitnessScore) {
+            worstScore = rooms[room].fitnessScore;
+        }
+    }
+    averageScore /= NUM_ROOMS;
+
     saveFile << "Initial temperature:  " << INITIAL_TEMPERATURE
-             << "\nCooling schedule: " << GEOMETRIC_TEMP_REDUCTION
-             << "\nBest room score:    "
-             << "\nWorst room score:   "
-             << "\nAverage room score: "
-             << "\nTotal swaps: " << totalChanges
-             << "\nTotal attempts: " << totalAttempts
+             << "\nCooling schedule:     " << GEOMETRIC_TEMP_REDUCTION
+             << "\nBest room score:      " << bestScore
+             << "\nWorst room score:     " << worstScore
+             << "\nAverage room score:   " << averageScore
+             << "\nTotal swaps:          " << totalChanges
+             << "\nTotal attempts:       " << totalAttempts
              << "\n";
 
     for(int room = 0; room < NUM_ROOMS; room++) {
