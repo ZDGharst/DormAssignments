@@ -23,7 +23,7 @@ class Annealer {
     std::uniform_int_distribution<int> whichRoommate;
 
     public:
-    Annealer();
+    Annealer(std::string filename);
 
     bool LoadCompatibilities(std::string filename);
     void PreloadRooms();

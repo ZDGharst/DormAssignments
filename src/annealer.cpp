@@ -1,6 +1,6 @@
 #include "annealer.h"
 
-Annealer::Annealer() {
+Annealer::Annealer(std::string filename) {
     temperature = INITIAL_TEMPERATURE;
     acceptedChanges = 0;
     attemptedChanges = 0;
@@ -11,8 +11,15 @@ Annealer::Annealer() {
     whichSwap = std::uniform_int_distribution<int>(0,1);
     whichRoom = std::uniform_int_distribution<int>(0, NUM_ROOMS - 1);
     whichRoommate = std::uniform_int_distribution<int>(0, NUM_STUDENTS_PER_ROOM - 1);
+
+    if(!LoadCompatibilities(filename)) {
+        exit(-1);
+    };
+
+    PreloadRooms();
 }
 
+/* Load roommate compatibility scores from file. Return boolean indicates success. */
 bool Annealer::LoadCompatibilities(std::string filename) {
     std::ifstream compatibilityFile;
     compatibilityFile.open(filename);
@@ -30,6 +37,7 @@ bool Annealer::LoadCompatibilities(std::string filename) {
     return true;
 }
 
+/* Generate rooms at the start by arbitrary assignment. */
 void Annealer::PreloadRooms() {
     for(int room = 0, student = 0; room < NUM_ROOMS; room++) {
         for(int roommate = 0; roommate < NUM_STUDENTS_PER_ROOM; roommate++) {
@@ -40,8 +48,11 @@ void Annealer::PreloadRooms() {
     }
 }
 
+/* Check if there has been enough attempts/changes for a reduction, and if there have been
+ * no changes after enough attempts, consider the assignments solved. */
 void Annealer::ReduceTemperature() {
-    if(attemptedChanges >= ATTEMPTS_BEFORE_REDUCTION || acceptedChanges >= CHANGES_BEFORE_REDUCTION) {
+    if(attemptedChanges >= ATTEMPTS_BEFORE_REDUCTION
+    || acceptedChanges >= CHANGES_BEFORE_REDUCTION) {
         if(acceptedChanges == 0) {
             solved = true;
             return;
@@ -53,13 +64,18 @@ void Annealer::ReduceTemperature() {
     }
 }
 
+/* Swap randomly, adjust the temperature as needed, then save the results once the
+ * assignments are considered to be solved. */
 void Annealer::Solver() {
     while(!solved) {
         RandomSwap();
         ReduceTemperature();
     }
+
+    SaveResultsToFile("output.txt");
 }
 
+/* Choose two different rooms, then randomly pick between 1 of 2 swap methods. */
 void Annealer::RandomSwap() {
     int room1 = whichRoom(rng);
     int room2 = whichRoom(rng);
@@ -73,6 +89,8 @@ void Annealer::RandomSwap() {
     totalAttempts++;
 }
 
+/* Switch a roommate at random from the first room with another roommate at random
+ * from the second room. */
 void Annealer::SmallSwap(int room1, int room2) {
     Room changedRoom1 = Room(rooms[room1]);
     Room changedRoom2 = Room(rooms[room2]);
@@ -104,6 +122,8 @@ void Annealer::SmallSwap(int room1, int room2) {
     }
 }
 
+/* Switch the first two roommates in the first room with the second two roommates
+ * in the second room. */
 void Annealer::LargeSwap() {
 }
 
@@ -122,7 +142,8 @@ bool Annealer::SaveResultsToFile(std::string filename) {
              << "\nWorst room score:   "
              << "\nAverage room score: "
              << "\nTotal swaps: " << totalChanges
-             << "\nTotal attempts: " << totalAttempts;
+             << "\nTotal attempts: " << totalAttempts
+             << "\n";
 
     for(int room = 0; room < NUM_ROOMS; room++) {
         saveFile << "\nRoom #" << room + 1 << ": " << rooms[room].fitnessScore;
