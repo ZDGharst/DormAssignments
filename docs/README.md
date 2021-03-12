@@ -8,7 +8,7 @@ Type ```make``` in the terminal in the project folder to compile and run the pro
 The file [globals.h](../include/globals.h) contains all the constants used by the program. These can be modified to speed up the program, get better results, or change the set up of rooms (8 student rooms with 400 students, for example). Take care when changing these globals, the program can break if you blindly change them (too low of temperature could result in a division by zero).
 
 ## Results
-Results are stored in [results/](results/) and are named after the timestamp of program run time.
+Results are stored in [../results/](results/) and are named after the timestamp of program run time.
 
 ## Author
 Program by [Zach Gharst](http://gharst.engineer) for CS461 - Introduction to Artificial Intelligence at UMKC.
