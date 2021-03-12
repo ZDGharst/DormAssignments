@@ -165,7 +165,7 @@ bool Annealer::AcceptChange(int oldFitness, int newFitness) {
 bool Annealer::SaveResultsToFile() {
     auto timeT = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     std::stringstream datetime;
-    datetime << std::put_time(std::localtime(&timeT), "%Y-%m-%d %X");
+    datetime << std::put_time(std::localtime(&timeT), "%Y-%m-%d_%X");
 
     std::ofstream saveFile;
     saveFile.open("results/" + datetime.str() + ".txt");
