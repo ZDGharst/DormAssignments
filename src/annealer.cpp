@@ -76,7 +76,7 @@ void Annealer::Solver() {
     }
 
     end = std::chrono::steady_clock::now();
-    SaveResultsToFile("output.txt");
+    SaveResultsToFile();
 }
 
 /* Choose two different rooms, then randomly pick between 1 of 2 swap methods. */
@@ -162,9 +162,13 @@ bool Annealer::AcceptChange(int oldFitness, int newFitness) {
     return false;
 }
 
-bool Annealer::SaveResultsToFile(std::string filename) {
+bool Annealer::SaveResultsToFile() {
+    auto timeT = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    std::stringstream datetime;
+    datetime << std::put_time(std::localtime(&timeT), "%Y-%m-%d %X");
+
     std::ofstream saveFile;
-    saveFile.open(filename);
+    saveFile.open("results/" + datetime.str() + ".txt");
 
     if(!saveFile) {
         std::cout << "Couldn't create output file! Exiting...\n";

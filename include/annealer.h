@@ -7,6 +7,7 @@
 #include <array>
 #include <chrono>
 #include <random>
+#include <sstream>
 
 #include "globals.h"
 #include "room.h"
@@ -40,7 +41,7 @@ class Annealer {
     void SmallSwap(int room1, int room2);
     void LargeSwap(int room1, int room2);
     bool AcceptChange(int oldFitness, int newFitness);
-    bool SaveResultsToFile(std::string filename);
+    bool SaveResultsToFile();
 };
 
 #endif /* ANNEALER_H */
