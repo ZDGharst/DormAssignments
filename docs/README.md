@@ -1,25 +1,14 @@
 ### Dorm Assignments
-This program assigns two hundred roommates to fifty 4-person rooms using simulated annealing.
+This program assigns two hundred roommates to fifty 4-person rooms using simulated annealing. Receives input from the file at [data/roommates.txt](../data/roommates.txt). Input is expected to be 200 rows of 200 integer values separated by spaces.
 
-Receives input from the file at **data/roommates.txt**. Input is expected to be 200 rows of 200 integer values separated by spaces.
+## Compile and Run
+Type ```make``` in the terminal in the project folder to compile and run the project. Once compiled, the program is located at ```./bin/DormAssignments.o```. Run this again from the root of the project folder (or it won't find the input file).
 
-Type "make" in the terminal in the project folder to compile and run the project.
+## Constants
+The file [globals.h](../include/globals.h) contains all the constants used by the program. These can be modified to speed up the program, get better results, or change the set up of rooms (8 student rooms with 400 students, for example). Take care when changing these globals, the program can break if you blindly change them (too low of temperature could result in a division by zero).
 
-Program by Zach Gharst for CS461 - Introduction to Artificial Intelligence at UMKC.
+## Results
+Results are stored in [results/](results/) and are named after the timestamp of program run time.
 
-## Optimizations:
-Originally, the input file is a 200x200 matrix. However, the diagonal is all zeroes, and the values across the diagonal are symmetric to each other. As in, for some arbitrary value **x**, matrix[x][x] is always equal to zero. For some arbitrary **x** and **y**, matrix[x][y] == matrix[y][x]. Instead of storing 40000 values, we only have to store 40000/2 - 200 = 19800 values.
-
-Here's the naive approach where all 40000 values are stored:
-
-    int compatibilities[40000];
-    std::ifstream compatibilityFile;
-    compatibilityFile.open("data/roommates.txt");
-
-    for(int i = 0; i < 40000; i++) {
-        compatibilityFile >> compatibilities[i];
-    }
-
-    compatibilityFile.close();
-    
-    
+## Author
+Program by [Zach Gharst](http://gharst.engineer) for CS461 - Introduction to Artificial Intelligence at UMKC.
