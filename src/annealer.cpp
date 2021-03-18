@@ -3,7 +3,9 @@
 Annealer::Annealer(std::string filename) {
     temperature = INITIAL_TEMPERATURE;
     acceptedChanges = 0;
+    totalChanges = 0;
     attemptedChanges = 0;
+    totalAttempts = 0;
     solved = false;
 
     /* Initialize random number generator. */
@@ -60,7 +62,11 @@ void Annealer::ReduceTemperature() {
         }
 
         temperature *= GEOMETRIC_TEMP_REDUCTION;
+
+        totalChanges += acceptedChanges;
         acceptedChanges = 0;
+
+        totalAttempts += attemptedChanges;
         attemptedChanges = 0;
     }
 }
@@ -96,7 +102,6 @@ void Annealer::RandomSwap() {
     }
 
     attemptedChanges++;
-    totalAttempts++;
 }
 
 /* Switch a roommate at random from the first room with another roommate at random
@@ -110,6 +115,7 @@ void Annealer::SmallSwap(int room1, int room2) {
     int temp = changedRoom1.roommate[roommate1];
     changedRoom1.roommate[roommate1] = changedRoom2.roommate[roommate2];
     changedRoom2.roommate[roommate2] = temp;
+
     changedRoom1.CalculateFitness(compatibilities);
     changedRoom2.CalculateFitness(compatibilities);
 
@@ -118,7 +124,6 @@ void Annealer::SmallSwap(int room1, int room2) {
         rooms[room1] = changedRoom1;
         rooms[room2] = changedRoom2;
         acceptedChanges++;
-        totalChanges++;
     }
 }
 
@@ -143,7 +148,6 @@ void Annealer::LargeSwap(int room1, int room2) {
         rooms[room1] = changedRoom1;
         rooms[room2] = changedRoom2;
         acceptedChanges++;
-        totalChanges++;
     }
 }
 
