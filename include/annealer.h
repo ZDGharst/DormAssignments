@@ -19,7 +19,7 @@ class Annealer {
     int m_acceptedChanges = 0, m_attemptedChanges = 0,
         m_totalChanges = 0, m_totalAttempts = 0,
         m_startingTemperature;
-    double m_temperature;
+    double m_temperature, m_reduction;
     bool m_solved = false;
     
     std::chrono::time_point<std::chrono::steady_clock> m_start;
@@ -33,7 +33,7 @@ class Annealer {
     std::uniform_real_distribution<double> m_acceptanceProbability;
 
     public:
-    Annealer(std::string filename, int temperature);
+    Annealer(std::string filename, int temperature, double reduction);
 
     bool LoadCompatibilities(std::string filename);
     void PreloadRooms();
