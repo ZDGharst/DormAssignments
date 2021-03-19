@@ -14,8 +14,8 @@
 
 class Annealer {
     private:
-    std::array<int, SIZE_OF_COMPATIBILITIES> m_compatibilities;
-    std::array<Room, NUM_ROOMS> m_rooms;
+    std::array<int, DormAssignments::Globals::SIZE_OF_COMPATIBILITIES> m_compatibilities;
+    std::array<Room, DormAssignments::Globals::NUM_ROOMS> m_rooms;
     int m_acceptedChanges = 0, m_attemptedChanges = 0,
         m_totalChanges = 0, m_totalAttempts = 0,
         m_startingTemperature;

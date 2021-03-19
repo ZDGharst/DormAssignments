@@ -6,6 +6,8 @@
 #include "room.h"
 #include "annealer.h"
 
+using namespace DormAssignments::Globals;
+
 int main(int argc, char* argv[]) {
     std::string inputFile = "data/roommates.txt";
     int temperature = INITIAL_TEMPERATURE;

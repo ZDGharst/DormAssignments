@@ -8,10 +8,10 @@
 class Room {
     public:
     
-    std::array<int, NUM_STUDENTS_PER_ROOM> roommate;
+    std::array<int, DormAssignments::Globals::NUM_STUDENTS_PER_ROOM> roommate;
     int fitnessScore;
 
-    void CalculateFitness(const std::array<int, SIZE_OF_COMPATIBILITIES>& compatibilities);
+    void CalculateFitness(const std::array<int, DormAssignments::Globals::SIZE_OF_COMPATIBILITIES>& compatibilities);
     void SortRoommates();
     const std::string PrintRoom();
 };

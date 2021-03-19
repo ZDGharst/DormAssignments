@@ -1,5 +1,7 @@
 #include "room.h"
 
+using namespace DormAssignments::Globals;
+
 void Room::CalculateFitness(const std::array<int, 40000>& compatibilities) {
     fitnessScore = 0;
     for(int student1 = 0; student1 < NUM_STUDENTS_PER_ROOM - 1; student1++) {

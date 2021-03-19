@@ -1,5 +1,7 @@
 #include "annealer.h"
 
+using namespace DormAssignments::Globals;
+
 Annealer::Annealer(const std::string filename, const int temperature, const double reduction)
     : m_rng(m_rd())
     , m_whichSwap(0, 1)
