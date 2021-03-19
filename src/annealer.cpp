@@ -20,7 +20,7 @@ bool Annealer::LoadCompatibilities(std::string filename) {
     compatibilityFile.open(filename);
 
     if(!compatibilityFile) {
-        std::cout << "Couldn't find input file! Exiting...\n";
+        std::cout << "DormAssignments: cannot stat '" << filename << "': No such file or directory\n";
         return false;
     }
 
