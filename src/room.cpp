@@ -22,7 +22,7 @@ void Room::SortRoommates() {
     }
 }
 
-std::string Room::PrintRoom() {
+const std::string Room::PrintRoom() {
     std::string output = "\tFitness Score [";
     output += std::to_string(fitnessScore);
     output += "]\tStudents: [";
