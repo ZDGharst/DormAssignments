@@ -14,21 +14,21 @@
 
 class Annealer {
     private:
-    std::array<int, SIZE_OF_COMPATIBILITIES> compatibilities;
-    std::array<Room, NUM_ROOMS> rooms;
-    int acceptedChanges, attemptedChanges, totalChanges, totalAttempts;
-    double temperature;
-    bool solved;
+    std::array<int, SIZE_OF_COMPATIBILITIES> m_compatibilities;
+    std::array<Room, NUM_ROOMS> m_rooms;
+    int m_acceptedChanges, m_attemptedChanges, m_totalChanges, m_totalAttempts;
+    double m_temperature;
+    bool m_solved;
     
-    std::chrono::time_point<std::chrono::steady_clock> start;
-    std::chrono::time_point<std::chrono::steady_clock> end;
+    std::chrono::time_point<std::chrono::steady_clock> m_start;
+    std::chrono::time_point<std::chrono::steady_clock> m_end;
 
-    std::random_device rd;
-    std::mt19937 rng;
-    std::uniform_int_distribution<int> whichSwap;
-    std::uniform_int_distribution<int> whichRoom;
-    std::uniform_int_distribution<int> whichRoommate;
-    std::uniform_real_distribution<double> acceptanceProbability;
+    std::random_device m_rd;
+    std::mt19937 m_rng;
+    std::uniform_int_distribution<int> m_whichSwap;
+    std::uniform_int_distribution<int> m_whichRoom;
+    std::uniform_int_distribution<int> m_whichRoommate;
+    std::uniform_real_distribution<double> m_acceptanceProbability;
 
     public:
     Annealer(std::string filename);
