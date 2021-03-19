@@ -1,6 +1,6 @@
 #include "annealer.h"
 
-Annealer::Annealer(std::string filename, int temperature, double reduction)
+Annealer::Annealer(const std::string filename, const int temperature, const double reduction)
     : m_rng(m_rd())
     , m_whichSwap(0, 1)
     , m_whichRoom(0, NUM_ROOMS - 1)
@@ -82,8 +82,11 @@ void Annealer::Solver() {
 
 /* Choose two different rooms, then randomly pick between 1 of 2 swap methods. */
 void Annealer::RandomSwap() {
+    m_attemptedChanges++;
+
     int room1 = m_whichRoom(m_rng);
     int room2 = m_whichRoom(m_rng);
+
     while(room1 == room2) {
         room2 = m_whichRoom(m_rng);
     }
@@ -95,13 +98,11 @@ void Annealer::RandomSwap() {
     else {
         LargeSwap(room1, room2);
     }
-
-    m_attemptedChanges++;
 }
 
 /* Switch a roommate at random from the first room with another roommate at random
  * from the second room. */
-void Annealer::SmallSwap(int room1, int room2) {
+void Annealer::SmallSwap(const int room1, const int room2) {
     Room changedRoom1 = Room(m_rooms[room1]);
     Room changedRoom2 = Room(m_rooms[room2]);
     int roommate1 = m_whichRoommate(m_rng);
@@ -124,7 +125,7 @@ void Annealer::SmallSwap(int room1, int room2) {
 
 /* Switch the first two roommates in the first room with the second two roommates
  * in the second room. */
-void Annealer::LargeSwap(int room1, int room2) {
+void Annealer::LargeSwap(const int room1, const int room2) {
     Room changedRoom1 = Room(m_rooms[room1]);
     Room changedRoom2 = Room(m_rooms[room2]);
 
@@ -148,7 +149,7 @@ void Annealer::LargeSwap(int room1, int room2) {
 
 /* Always accept a chance if it's better. Only accept a worse change if it falls within
  * the probability chance. */
-bool Annealer::AcceptChange(int oldFitness, int newFitness) {
+bool Annealer::AcceptChange(const int oldFitness, const int newFitness) {
     if(newFitness <= oldFitness) {
         return true;
     }

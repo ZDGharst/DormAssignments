@@ -33,16 +33,16 @@ class Annealer {
     std::uniform_real_distribution<double> m_acceptanceProbability;
 
     public:
-    Annealer(std::string filename, int temperature, double reduction);
+    Annealer(const std::string filename, const int temperature, const double reduction);
 
     bool LoadCompatibilities(std::string filename);
     void PreloadRooms();
     void ReduceTemperature();
     void Solver();
     void RandomSwap();
-    void SmallSwap(int room1, int room2);
-    void LargeSwap(int room1, int room2);
-    bool AcceptChange(int oldFitness, int newFitness);
+    void SmallSwap(const int room1, const int room2);
+    void LargeSwap(const int room1, const int room2);
+    bool AcceptChange(const int oldFitness, const int newFitness);
     bool SaveResultsToFile();
 };
 
