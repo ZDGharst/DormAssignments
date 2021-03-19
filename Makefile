@@ -5,7 +5,7 @@ compile_and_run:
 profiler: diagnostics strace
 
 diagnostics:
-	/usr/bin/time -v -p -o debug/system.log ./obj/DormAssignments.o
+	/usr/bin/time -v -p -o profile/time.log ./obj/DormAssignments.o
 	
 strace:
-	strace -o debug/strace.log .obj/DormAssignments.o
+	strace -o profile/strace.log ./obj/DormAssignments.o
