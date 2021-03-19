@@ -16,9 +16,10 @@ class Annealer {
     private:
     std::array<int, SIZE_OF_COMPATIBILITIES> m_compatibilities;
     std::array<Room, NUM_ROOMS> m_rooms;
-    int m_acceptedChanges, m_attemptedChanges, m_totalChanges, m_totalAttempts;
-    double m_temperature;
-    bool m_solved;
+    int m_acceptedChanges = 0, m_attemptedChanges = 0,
+        m_totalChanges = 0, m_totalAttempts = 0;
+    double m_temperature = INITIAL_TEMPERATURE;
+    bool m_solved = false;
     
     std::chrono::time_point<std::chrono::steady_clock> m_start;
     std::chrono::time_point<std::chrono::steady_clock> m_end;

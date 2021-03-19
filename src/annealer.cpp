@@ -1,19 +1,11 @@
 #include "annealer.h"
 
-Annealer::Annealer(std::string filename) {
-    m_temperature = INITIAL_TEMPERATURE;
-    m_acceptedChanges = 0;
-    m_totalChanges = 0;
-    m_attemptedChanges = 0;
-    m_totalAttempts = 0;
-    m_solved = false;
-
-    /* Initialize random number generator. */
-    m_rng = std::mt19937(m_rd());
-    m_whichSwap = std::uniform_int_distribution<int>(0,1);
-    m_whichRoom = std::uniform_int_distribution<int>(0, NUM_ROOMS - 1);
-    m_whichRoommate = std::uniform_int_distribution<int>(0, NUM_STUDENTS_PER_ROOM - 1);
-    m_acceptanceProbability = std::uniform_real_distribution<double>(0.0, 1.0);
+Annealer::Annealer(std::string filename)
+    : m_rng(m_rd())
+    , m_whichSwap(0, 1)
+    , m_whichRoom(0, NUM_ROOMS - 1)
+    , m_whichRoommate(0, NUM_STUDENTS_PER_ROOM - 1)
+    , m_acceptanceProbability(0.0, 1.0) {
 
     if(!LoadCompatibilities(filename)) {
         exit(-1);
