@@ -1,11 +1,13 @@
 #include "annealer.h"
 
-Annealer::Annealer(std::string filename)
+Annealer::Annealer(std::string filename, int temperature)
     : m_rng(m_rd())
     , m_whichSwap(0, 1)
     , m_whichRoom(0, NUM_ROOMS - 1)
     , m_whichRoommate(0, NUM_STUDENTS_PER_ROOM - 1)
-    , m_acceptanceProbability(0.0, 1.0) {
+    , m_acceptanceProbability(0.0, 1.0)
+    , m_startingTemperature(temperature)
+    , m_temperature(static_cast<double>(temperature)) {
 
     if(!LoadCompatibilities(filename)) {
         exit(-1);
@@ -190,7 +192,7 @@ bool Annealer::SaveResultsToFile() {
     averageScore /= NUM_ROOMS;
     auto elapsedTime = m_end - m_start;
 
-    saveFile <<   "Initial temperature:   " << std::setw(8) << INITIAL_TEMPERATURE
+    saveFile <<   "Initial temperature:   " << std::setw(8) << m_startingTemperature
              << "\nGeometric reduction:   " << std::setw(8) << GEOMETRIC_TEMP_REDUCTION
              << "\nBest fitness score:    " << std::setw(8) << bestScore
              << "\nWorst fitness score:   " << std::setw(8) << worstScore

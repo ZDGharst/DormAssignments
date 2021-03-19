@@ -17,8 +17,9 @@ class Annealer {
     std::array<int, SIZE_OF_COMPATIBILITIES> m_compatibilities;
     std::array<Room, NUM_ROOMS> m_rooms;
     int m_acceptedChanges = 0, m_attemptedChanges = 0,
-        m_totalChanges = 0, m_totalAttempts = 0;
-    double m_temperature = INITIAL_TEMPERATURE;
+        m_totalChanges = 0, m_totalAttempts = 0,
+        m_startingTemperature;
+    double m_temperature;
     bool m_solved = false;
     
     std::chrono::time_point<std::chrono::steady_clock> m_start;
@@ -32,7 +33,7 @@ class Annealer {
     std::uniform_real_distribution<double> m_acceptanceProbability;
 
     public:
-    Annealer(std::string filename);
+    Annealer(std::string filename, int temperature);
 
     bool LoadCompatibilities(std::string filename);
     void PreloadRooms();
